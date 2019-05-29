@@ -58,26 +58,22 @@ class TasksController extends Controller
             ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // putまたはpatchでtasks/idにアクセスされた場合の更新処理
     public function update(Request $request, $id)
     {
-        //
+        $task = Task::find($id);
+        $task->content = $request->content;
+        $task->save();
+        
+        return redirect('/');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // deleteでtasks/idにアクセスされた場合の削除処理
     public function destroy($id)
     {
-        //
+        $task = Task::find($id);
+        $task->delete();
+
+        return redirect('/');
     }
 }
