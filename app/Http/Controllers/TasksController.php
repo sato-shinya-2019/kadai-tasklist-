@@ -38,15 +38,14 @@ class TasksController extends Controller
         return redirect('/');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // getでtasks/idにアクセスされた場合の取得表示処理
     public function show($id)
     {
-        //
+        $task = Task::find($id);
+        
+        return view('tasks.show', [
+            'task' => $task,
+            ]);
     }
 
     /**
