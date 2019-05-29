@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Task;    // 追加
+
 class TasksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // getでtasks/にアクセスされた場合の一覧表示処理
     public function index()
     {
-        //
+        $tasks = Task::all();
+        
+        return view('tasks.index', [
+            'tasks' => $tasks,
+            ]);
     }
 
     /**
