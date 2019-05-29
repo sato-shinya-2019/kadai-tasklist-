@@ -18,14 +18,14 @@ class TasksController extends Controller
             ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // getでtasks/create/にアクセスされた場合の新規登録画面表示処理
     public function create()
     {
-        //
+        $task = new Task;
+        
+        return view('tasks.create', [
+            'task' => $task,
+            ]);
     }
 
     /**
