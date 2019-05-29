@@ -28,15 +28,14 @@ class TasksController extends Controller
             ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    // postでtasks/にアクセスされた場合の新規登録処理
     public function store(Request $request)
     {
-        //
+        $task = new Task;
+        $task->content = $request->content;
+        $task->save();
+        
+        return redirect('/');
     }
 
     /**
