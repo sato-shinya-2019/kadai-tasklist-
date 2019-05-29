@@ -48,15 +48,14 @@ class TasksController extends Controller
             ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // getでtsks/id/editにアクセスされた場合の更新画面表示処理
     public function edit($id)
     {
-        //
+        $task = Task::find($id);
+        
+        return view('tasks.edit', [
+            'task' => $task,
+            ]);
     }
 
     /**
