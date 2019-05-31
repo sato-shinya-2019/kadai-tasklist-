@@ -11,6 +11,12 @@
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
+/* 一時的にアウト
 Route::get('/', 'TasksController@index');
 
 Route::resource('tasks','TasksController');
+*/
