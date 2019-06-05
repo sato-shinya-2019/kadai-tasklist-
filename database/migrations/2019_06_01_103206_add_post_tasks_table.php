@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddUserRegistrationTable extends Migration
+class AddPostTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,11 @@ class AddUserRegistrationTable extends Migration
     public function up()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password', 60);
-            $table->rememberToken();
+            $table->increments('id');
+            $table->integer('user_id')->unsigned()->index();
+
+            // 外部キー制約
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

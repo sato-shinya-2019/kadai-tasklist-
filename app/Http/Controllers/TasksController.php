@@ -11,12 +11,33 @@ class TasksController extends Controller
     // getでtasks/にアクセスされた場合の一覧表示処理
     public function index()
     {
+        // ログインしている場合…
         $tasks = Task::all();
-        
+        $data = [];
+        if(\Auth::check()) {
+            
+        $user = \Auth::user();
+            $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(5);
+
+            $data = [
+                'user' => $user,
+                'tasks' => $tasks,
+            ];    
+
         return view('tasks.index', [
             'tasks' => $tasks,
-            ]);
+        ]);
+        
+        // ログインしてない場合…
+        } else {    
+            
+        return view('welcome', $data);
+        
+        }
+
     }
+    
+    
 
     // getでtasks/create/にアクセスされた場合の新規登録画面表示処理
     public function create()
@@ -36,10 +57,10 @@ class TasksController extends Controller
             'content' => 'required|max:30',
         ]);
         
-        $task = new Task;
-        $task->content = $request->content;
-        $task->status = $request->status;
-        $task->save();
+          $request->user()->tasks()->create([
+            'status' => $request->status,
+            'content' => $request->content,
+        ]);
         
         return redirect('/');
     }
@@ -73,9 +94,10 @@ class TasksController extends Controller
         ]);
         
         $task = Task::find($id);
-        $task->content = $request->content;
-        $task->status = $request->status;
-        $task->save();
+$request->user()->tasks()->create([
+            'status' => $request->status,
+            'content' => $request->content,
+        ]);
         
         return redirect('/');
     }
@@ -83,8 +105,11 @@ class TasksController extends Controller
     // deleteでtasks/idにアクセスされた場合の削除処理
     public function destroy($id)
     {
-        $task = Task::find($id);
+        $task = \App\Task::find($id);
+        
+        if (\Auth::id() === $task->user_id) {
         $task->delete();
+        }
 
         return redirect('/');
     }
