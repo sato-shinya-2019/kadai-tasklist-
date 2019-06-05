@@ -94,11 +94,11 @@ class TasksController extends Controller
         ]);
         
         $task = Task::find($id);
-$request->user()->tasks()->create([
-            'status' => $request->status,
-            'content' => $request->content,
-        ]);
         
+        $task->content = $request->content;
+        $task->status = $request->status;
+        $task->save();
+    
         return redirect('/');
     }
 
