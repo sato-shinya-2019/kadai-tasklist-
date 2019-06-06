@@ -42,16 +42,22 @@ class TasksController extends Controller
     // getでtasks/create/にアクセスされた場合の新規登録画面表示処理
     public function create()
     {
+        
         $task = new Task;
         
         return view('tasks.create', [
             'task' => $task,
             ]);
+          
+            
+        return redirect('/');
+
     }
 
     // postでtasks/にアクセスされた場合の新規登録処理
     public function store(Request $request)
     {
+        
         $this->validate($request, [
             'status' => 'required|max:10',
             'content' => 'required|max:30',
@@ -70,9 +76,14 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
         
-        return view('tasks.show', [
-            'task' => $task,
-            ]);
+        if (\Auth::id() === $task->user_id) {
+            
+            return view('tasks.show', [
+                'task' => $task,
+                ]);
+                
+        } 
+        return redirect('/');
     }
 
     // getでtsks/id/editにアクセスされた場合の更新画面表示処理
@@ -80,10 +91,19 @@ class TasksController extends Controller
     {
         $task = Task::find($id);
         
-        return view('tasks.edit', [
-            'task' => $task,
-            ]);
+        if (\Auth::id() === $task->user_id) {
+            return view('tasks.edit', [
+                'task' => $task,
+                ]);
+        }
+        return redirect('/');    
+                
+        
     }
+    
+            
+    
+    
 
     // putまたはpatchでtasks/idにアクセスされた場合の更新処理
     public function update(Request $request, $id)
